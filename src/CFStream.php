@@ -23,7 +23,7 @@ class CFStream
      */
     public function __construct($key, $accountId, $email)
     {
-        if (empty($key) || empty($zone) || empty($email)) {
+        if (empty($key) || empty($accountId) || empty($email)) {
             throw new InvalidCredentialsException();
         }
 
@@ -92,7 +92,7 @@ class CFStream
             throw new InvalidFileException();
         }
 
-        $response = $this->client->post("https://api.cloudflare.com/client/v4/accounts/{$this->accountId}/media", [
+        $response = $this->client->post("https://api.cloudflare.com/client/v4/accounts/{$this->accountId}/stream", [
             'headers' => [
                 'X-Auth-Key' => $this->key,
                 'X-Auth-Email' => $this->email,
