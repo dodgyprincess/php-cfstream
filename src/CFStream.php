@@ -11,24 +11,24 @@ use JianJye\CFStream\Exceptions\InvalidCredentialsException;
 class CFStream
 {
     private $key;
-    private $zone;
+    private $accountId;
     private $email;
 
     /**
      * Initialize CFStream with authentication credentials.
      *
      * @param string $key
-     * @param string $zone
+     * @param string $accountId
      * @param string $email
      */
-    public function __construct($key, $zone, $email)
+    public function __construct($key, $accountId, $email)
     {
         if (empty($key) || empty($zone) || empty($email)) {
             throw new InvalidCredentialsException();
         }
 
         $this->key = $key;
-        $this->zone = $zone;
+        $this->accountId = $accountId;
         $this->email = $email;
 
         $this->client = new Client();
@@ -92,7 +92,7 @@ class CFStream
             throw new InvalidFileException();
         }
 
-        $response = $this->client->post("https://api.cloudflare.com/client/v4/zones/{$this->zone}/media", [
+        $response = $this->client->post("https://api.cloudflare.com/client/v4/accounts/{$this->accountId}/media", [
             'headers' => [
                 'X-Auth-Key' => $this->key,
                 'X-Auth-Email' => $this->email,
