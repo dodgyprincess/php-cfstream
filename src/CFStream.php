@@ -11,21 +11,22 @@ use dodgyprincess\CFStream\Exceptions\InvalidCredentialsException;
 class CFStream
 {
     private $token;
+    private $accountId;
 
     /**
      * Initialize CFStream with authentication credentials.
      *
      * @param string $key
      * @param string $accountId
-     * @param string $email
      */
-    public function __construct($token)
+    public function __construct($token, $accountId)
     {
         if (empty($token)) {
             throw new InvalidCredentialsException();
         }
 
         $this->token = $token;
+        $this->accountId = $accountId;
 
         $this->client = new Client();
     }
