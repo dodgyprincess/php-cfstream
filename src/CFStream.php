@@ -10,23 +10,26 @@ use dodgyprincess\CFStream\Exceptions\InvalidCredentialsException;
 
 class CFStream
 {
-    private $token;
+    private $key;
     private $accountId;
+    private $email;
 
     /**
      * Initialize CFStream with authentication credentials.
      *
      * @param string $key
      * @param string $accountId
+     * @param string $email
      */
-    public function __construct($token, $accountId)
+    public function __construct($key, $accountId, $email)
     {
-        if (empty($token)) {
+        if (empty($key) || empty($accountId) || empty($email)) {
             throw new InvalidCredentialsException();
         }
 
-        $this->token = $token;
+        $this->key = $key;
         $this->accountId = $accountId;
+        $this->email = $email;
 
         $this->client = new Client();
     }
@@ -42,7 +45,8 @@ class CFStream
     {
         $response = $this->client->get($resourceUrl, [
             'headers' => [
-                'Authorization' => 'Bearer '.$this->token,
+                'X-Auth-Key' => $this->key,
+                'X-Auth-Email' => $this->email,
                 'Content-Type' => 'application/json',
             ],
         ]);
@@ -90,7 +94,8 @@ class CFStream
 
         $response = $this->client->post("https://api.cloudflare.com/client/v4/accounts/{$this->accountId}/stream", [
             'headers' => [
-                'Authorization' => 'Bearer '.$this->token,
+                'X-Auth-Key' => $this->key,
+                'X-Auth-Email' => $this->email,
                 'Content-Length' => 0,
                 'Tus-Resumable' => '1.0.0',
                 'Upload-Length' => $filesize,
@@ -122,7 +127,8 @@ class CFStream
 
         $response = $this->client->patch($resourceUrl, [
             'headers' => [
-                'Authorization' => 'Bearer '.$this->token,
+                'X-Auth-Key' => $this->key,
+                'X-Auth-Email' => $this->email,
                 'Content-Length' => $filesize,
                 'Content-Type' => 'application/offset+octet-stream',
                 'Tus-Resumable' => '1.0.0',
@@ -147,7 +153,8 @@ class CFStream
     {
         $response = $this->client->delete($resourceUrl, [
             'headers' => [
-                'Authorization' => 'Bearer '.$this->token,
+                'X-Auth-Key' => $this->key,
+                'X-Auth-Email' => $this->email,
                 'Content-Length' => 0,
             ],
         ]);
@@ -168,7 +175,8 @@ class CFStream
     {
         $response = $this->client->get("{$resourceUrl}/embed", [
             'headers' => [
-                'Authorization' => 'Bearer '.$this->token,
+                'X-Auth-Key' => $this->key,
+                'X-Auth-Email' => $this->email,
                 'Content-Type' => 'application/json',
             ],
         ]);
@@ -197,7 +205,7 @@ class CFStream
         $response = $this->client->post($resourceUrl, [
             'body' => "{\"uid\": \"{$videoId}\", \"allowedOrigins\": [\"{$origins}\"]}",
             'headers' => [
-                'X-Auth-Key' => $this->token,
+                'X-Auth-Key' => $this->key,
                 'X-Auth-Email' => $this->email,
             ],
         ]);
