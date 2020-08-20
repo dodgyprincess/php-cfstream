@@ -1,5 +1,5 @@
 <?php
 
-namespace JianJye\CFStream\Exceptions;
+namespace dodgyprincess\CFStream\Exceptions;
 
 class OperationFailedException extends \Exception {}

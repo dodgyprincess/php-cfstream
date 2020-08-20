@@ -18,26 +18,9 @@ PHP CFStream is a PHP TUS client that makes it easy to send video files to Cloud
 Install the package via Composer as usual. Use the `dev-master` branch.
 
 ```
-composer require jianjye/php-cfstream dev-master
+composer require dodgyprincess/php-cfstream dev-master
 ```
 
-#### Laravel 5.0+ 
-
-For Laravel 5.0 and newer projects, you can do `vendor:publish` to enable basic integrations:
-
-```
-php artisan vendor:publish 
-```
-
-Then select `Provider: JianJye\CFStream\Laravel\ServiceProvider`. `cfstream.php` will be copied to your `config` folder.
-
-After that, add these into your `.env` file:
-
-```
-CLOUDFLARE_KEY=
-CLOUDFLARE_ZONE=
-CLOUDFLARE_EMAIL=
-```
 
 ## Usage
 
@@ -46,7 +29,7 @@ CLOUDFLARE_EMAIL=
 If you are on composer-enabled projects, the following instructions should work for you. Otherwise try requiring `src/CFStream.php` directly in your project instead.
 
 ```
-use JianJye\CFStream\CFStream;
+use dodgyprincess\CFStream\CFStream;
 
 $cfstream = new CFStream($key, $zone, $email);
 
@@ -57,24 +40,4 @@ $cfstream->allow($resourceUrl, 'example.com, *.example.net');
 $cfstream->delete($resourceUrl);
 ```
 
-#### Laravel Projects
 
-If you have done the `vendor:publish` step, then `CFStream` can grab your credentials from the config file. You can use the `CFStreamLaravel` client instead.
-
-```
-use JianJye\CFStream\CFStreamLaravel;
-
-$cfstream = new CFStreamLaravel();
-
-$resourceUrl = $cfstream->upload($filepath);
-$cfstream->status($resourceUrl);
-$cfstream->code($resourceUrl);
-$cfstream->allow($resourceUrl, 'example.com, *.example.net');
-$cfstream->delete($resourceUrl);
-```
-
-## Changelog
-
-### 2019-04-02 - Namespace Changed
-
-The namespace of this project has been updated from `JJSee` to `JianJye`. Please update your projects accordingly. 

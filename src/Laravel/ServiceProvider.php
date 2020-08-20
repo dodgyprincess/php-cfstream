@@ -1,6 +1,6 @@
 <?php
 
-namespace JianJye\CFStream\Laravel;
+namespace dodgyprincess\CFStream\Laravel;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
